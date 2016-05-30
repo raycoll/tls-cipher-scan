@@ -61,7 +61,7 @@ def find_server_prefs(supported_ciphers, endpoint, port):
 	return sorted(supported_ciphers, cmp=cipher_cmp)
 
 def usage():
-	print "cipher_pref_scan.py endpoint port"
+	print "cipher_pref_scan.py endpoint [port]"
 
 def main(argv):
 	if len(argv) < 1:
@@ -79,14 +79,17 @@ def main(argv):
 
 	# python ssl doesn't provide a way to get a plain list of supported client ciphers. Call system openssl directly
 	openssl_cipher_str = "DEFAULT"
-	full_cipher_list = check_output(["openssl", "ciphers", openssl_cipher_str]).split(":")
+	full_cipher_list = check_output(["openssl", "ciphers", openssl_cipher_str]).rstrip().split(":")
+	print "Attempting all ciphers returned by: `openssl ciphers \"DEFAULT\"`...\n"
 
 	supported_ciphers = find_supported_ciphers(full_cipher_list, endpoint, port)
 	ordered_ciphers = find_server_prefs(supported_ciphers, endpoint, port)
 
-	print "Attempted ciphers: \n" + str(full_cipher_list)
-	print endpoint + "'s supported ciphers: \n" + str(supported_ciphers)
-	print endpoint + "'s ordered cipher preferences: \n" + str(ordered_ciphers)
+	from pprint import pprint
+	print endpoint + "'s supported ciphers:"
+	pprint(supported_ciphers)
+	print endpoint + "'s cipher preferences:"
+	pprint(ordered_ciphers)
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
