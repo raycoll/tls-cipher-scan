@@ -2,8 +2,7 @@
 Finds the ciphers a TLS endpoint supports and infers its preferences
 
 # Requirements
-* Openssl, ideally 1.0.2. Using an older version will constrain the ciphers attempted
-* python 2.7.9 or greater
+* Openssl in the script's PATH. Ideally 1.0.2+
 
 # Usage
 ```cipher_pref_scan.py endpoint [port]```
