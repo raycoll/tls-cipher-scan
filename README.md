@@ -50,6 +50,6 @@ www.google.com's cipher preferences:
 ```
 
 # How?
-Preferences are determined by "sorting" the endpoint's supported ciphers. The comparison function is a negotiation attempt with any two ciphers. The cipher that successfully negotiates with the server is considered "smaller".
-This basic approach assumes that the TLS library used by the server is using "server preference". 
-I.e. the server is using some static list of cipher suites that it iterates through until it finds one supported by the client.
+Attempt to handshake using our client's full set of supported ciphers. Iterate and subtract the cipher selected by the
+server in the previous iteration.
+
